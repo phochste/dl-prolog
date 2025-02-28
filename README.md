@@ -1,4 +1,4 @@
-# Prolog-DL
+# DL-Prolog - Defeasible Logic in Prolog
 
 Based on:
 

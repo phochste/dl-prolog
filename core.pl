@@ -136,6 +136,12 @@ undefeated_applicable(S,agency,P) :-
 	defeasibly(A) , 
 	not(defeated_by_supported(S,agency,P)) , 
 	not(defeated_by_applicable(S,intention,P)) .
+
+undefeated_applicable(S,permission,P) :-
+	rule(S,permission,P,A) ,
+	defeasibly(A) ,
+	not(defeated_by_supported(S,permission,P)) , 
+	not(defeated_by_applicable(S,permission,P)) . 
 %%% end undefeated_applicable %%%
 
 defeated_by_supported(R,X,P) :- 
