@@ -15,11 +15,9 @@ $penguin(charles)$
 
 **Rules**
 
-```math
-\text{r1 } \forall x: penguin(x) \rightarrow_{knowledge} bird(x) \\
-\text{r2 } \forall x: bird(x) \Rightarrow_{knowledge} fly(x) \\
-\text{r3 } \forall x: penguin(x) \rightsquigarrow_{knowledge} \lnot fly(x) 
-```
+$\text{r1 } \forall x: penguin(x) \rightarrow_{knowledge} bird(x)$\
+$\text{r2 } \forall x: bird(x) \Rightarrow_{knowledge} fly(x)$\
+$\text{r3 } \forall x: penguin(x) \rightsquigarrow_{knowledge} \lnot fly(x)$ 
 
 **Experiment**
 
@@ -57,17 +55,15 @@ false
 
 **Facts**
 
-$$professor(herbert) \\ visiting(herbert)$$
+$professor(herbert)$\
+$visiting(herbert)$
 
 **Rules**
 
-```math
-\text{r1 } \forall x : professor(x) \rightarrow_{knowledge} faculty(x) \\
-\text{r2 } \forall x : professor(x) \Rightarrow_{knowledge} tenured(x) \\
-\text{r3 } \forall x : visiting(x) \Rightarrow_{knowledge} \lnot tenured(x) \\
-\text{r4 } \forall x : tenured(x) \rightsquigarrow_{knowledge} \lnot fired(x) \\
-\text{r2} \gt \text{r3}
-```
+$\text{r1 } \forall x : professor(x) \rightarrow_{knowledge} faculty(x)$\
+$\text{r2 } \forall x : professor(x) \Rightarrow_{knowledge} tenured(x)$\
+$\text{r3 } \forall x : visiting(x) \Rightarrow_{knowledge} \lnot tenured(x)$\
+$\text{r2} \gt \text{r3}$
 
 **Experiment**
 
