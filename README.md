@@ -21,29 +21,11 @@ $\text{r3 } \forall x: penguin(x) \rightsquigarrow_{knowledge} \lnot fly(x)$
 
 **Experiment**
 
-Load theory into swipl: `swipl theory1.pl`
+Load theory into swipl: `run.sh theory1.pl`
 
 - $+\Delta bird(charles)$ do we have a definite proof that charles is a bird?
-
-```
-?- strictly(bird(charles)).
-true
-```
-
 - $-\Delta bird(charles)$ do we have a definite proof that charles is a not bird?
-
-```
-?- strictly(~(bird(charles))).
-false
-```
-
 - $+\delta fly(charles)$ do we have a defeasible proof that charles can fly?
-
-```
-?- defeasibly(fly(charles)).
-false
-```
-
 - $-\delta fly(charles)$ do we have a defeasible proof that charles can not fly?
 
 ```
@@ -67,32 +49,9 @@ $\text{r2} \gt \text{r3}$
 
 **Experiment**
 
-Load theory into swipl: `swipl theory2.pl`
+Load theory into swipl: `run theory2.pl`
 
 - $+\Delta faculty(herbert)$ do we have a definite proof that herbert is a part of a faculty?
-
-```
-?- strictly(faculty(herbert)).
-true
-```
-
 - $-\Delta faculty(herbert)$ do we have a definite proof that charles is a not part of a faculty?
-
-```
-?- strictly(~(faculty(herbert))).
-false
-```
-
 - $+\delta tenured(herbert)$ do we have a defeasible proof that herbert is tenured?
-
-```
-?- defeasibly(tenured(herbert)).
-false
-```
-
 - $-\delta tenured(herbert)$ do we have a defeasible proof that charles is not tenured?
-
-```
-?- defeasibly(~(tenured(herbert))).
-true
-```

@@ -169,3 +169,21 @@ defeasibly(P,knowledge) :- defeasibly(P,agency) .
 
 negation(~(X),X) :- ! . 
 negation(X, ~(X)).
+
+pDelta(Q) :- ! , strictly(Q) .
+mDelta(Q) :- ! , strictly(~(Q)) .
+
+pDelta(Q,O) :- ! , strictly(Q,O) .
+mDelta(Q,O) :- ! , strictly(~(Q,O)) .
+
+pdelta(Q) :- ! , defeasibly(Q) .
+mdelta(Q) :- ! , defeasibly(~(Q)) .
+
+pdelta(Q,O) :- ! , defeasibly(Q,O) .
+mdelta(Q,O) :- ! , defeasibly(~(Q),O) .
+
+%% Query
+run_query(Query) :-
+	write(Query) ,
+	write(" := ") , 
+    ( call(Query) -> writeln(true) ; writeln(false) ).
