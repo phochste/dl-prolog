@@ -10,10 +10,7 @@ Based on:
 
 **Facts**
 
-```math
-bird(tweety) \\
-penguin(charles) \\
-```
+$$bird(tweety) \\ penguin(charles)$$
 
 **Rules**
 
@@ -59,10 +56,7 @@ false
 
 **Facts**
 
-```math
-professor(herbert) \\
-visiting(herbert) \\
-```
+$$professor(herbert) \\ visiting(herbert)$$
 
 **Rules**
 
