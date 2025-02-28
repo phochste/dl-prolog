@@ -1,3 +1,5 @@
+:- dynamic defeater/4 .
+:- dynamic superior/2 .
 :- discontiguous strictly/2 .
 :- discontiguous defeasibly/2.
 
@@ -85,10 +87,14 @@ consistent(P,agency) :-
 	not(strictly(P1,agency)) , 
 	not(strictly(P1,obligation)) .
 
+%%% supported %%%
+% A literal is supported, if it is supported by by a supported rule with the same
+% mode, the premises of which are defeasibly provable
 supported(R,Operator,P) :- 
 	supportive_rule(R,Operator,P,A) ,
 	defeasibly(A) .
 
+% A literal in obligation can be supported by a supported rule in knowledge
 supported(R,obligation,P) :-
 	supportive_rule(R,knowledge,P,B) , 
 	obligation_environment(B) .
@@ -104,6 +110,14 @@ obligation_environment([A1|A2]) :-
 	obligation_environment(A2) . 
 
 obligation_environment([]).
+%%% end supported %%%
+
+%%% undefeated_applicable %%%
+undefeated_applicable(S,knowledge,P) :-
+	rule(S,knowledge,P,A) ,
+	defeasibly(A) ,
+	not(defeated_by_supported(S,knowledge,P)) , 
+	not(defeated_by_applicable(S,knowledge,P)) . 
 
 undefeated_applicable(S,agency,P) :-
 	rule(S,knowledge,P,A) , 
@@ -122,6 +136,7 @@ undefeated_applicable(S,agency,P) :-
 	defeasibly(A) , 
 	not(defeated_by_supported(S,agency,P)) , 
 	not(defeated_by_applicable(S,intention,P)) .
+%%% end undefeated_applicable %%%
 
 defeated_by_supported(R,X,P) :- 
 	negation(P,P1) , supported(S,X,P1), superior(S,R) .
@@ -129,17 +144,24 @@ defeated_by_supported(R,X,P) :-
 defeated_by_applicable(R,X,P) :-
 	negation(P,P1), applicable(S,X,P1), superior(S,R) .
 
+%%% applicable %%%
+% A rule is applicable if there is any rule (supportive or defeator) for this modality
+% that is premises are defeasibly provable (even if it is from a different modality
+% using rule conversion)
 applicable(R,Operator,P) :-
 	defeater(R,Operator,P,A) , 
 	defeasibly(A) . 
 
 applicable(R,Operator,P) :- 
 	supported(R,Operator,P) .
+%%% end applicable %%%
 
+%%% defeated %%%
 defeated(S,Operator,P) :- 
 	negation(P,P1) , 
 	applicable(R,Operator,P1) , 
 	superior(R,S) .
+%%% end defeated %%%
 
 strictly(P,knowledge) :- strictly(P,agency) . 
 
