@@ -1,4 +1,4 @@
-:- consult('core.pl').
+:- consult('core2.pl').
 
 fact(professor(herbert)).
 fact(visiting(herbert)).
