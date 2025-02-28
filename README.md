@@ -28,11 +28,6 @@ Load theory into swipl: `run.sh theory1.pl`
 - $+\delta fly(charles)$ do we have a defeasible proof that charles can fly?
 - $-\delta fly(charles)$ do we have a defeasible proof that charles can not fly?
 
-```
-?- defeasibly(~(fly(charles))).
-false
-```
-
 ## Theory2
 
 **Facts**
