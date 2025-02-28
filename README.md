@@ -10,7 +10,8 @@ Based on:
 
 **Facts**
 
-$$bird(tweety) \\ penguin(charles)$$
+$bird(tweety)$\
+$penguin(charles)$
 
 **Rules**
 
