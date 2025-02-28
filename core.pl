@@ -167,4 +167,5 @@ strictly(P,knowledge) :- strictly(P,agency) .
 
 defeasibly(P,knowledge) :- defeasibly(P,agency) .
 
-negation(~(X),X) :- !. negation(X, ~(X)).
+negation(~(X),X) :- ! . 
+negation(X, ~(X)).
