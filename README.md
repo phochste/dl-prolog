@@ -47,6 +47,6 @@ $\text{r2} \gt \text{r3}$
 Load theory into swipl: `run theory2.pl`
 
 - $+\Delta faculty(herbert)$ do we have a definite proof that herbert is a part of a faculty?
-- $-\Delta faculty(herbert)$ do we have a definite proof that charles is a not part of a faculty?
+- $-\Delta faculty(herbert)$ do we have a definite proof that herbert is a not part of a faculty?
 - $+\delta tenured(herbert)$ do we have a defeasible proof that herbert is tenured?
-- $-\delta tenured(herbert)$ do we have a defeasible proof that charles is not tenured?
+- $-\delta tenured(herbert)$ do we have a defeasible proof that herbert is not tenured?
