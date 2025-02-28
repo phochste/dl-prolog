@@ -1,3 +1,4 @@
+:- dynamic strict/4 .
 :- dynamic defeater/4 .
 :- dynamic superior/2 .
 :- discontiguous strictly/2 .
@@ -17,16 +18,12 @@ rule(Name,Operator,Head,Body) :-
 
 strictly(P,knowledge) :- fact(P) .
 strictly(P,obligation) :- fact(obligation(P)) .
-strictly(P,intention) :- fact(intention(P)) .
-strictly(P,agency) :- fact(agency(P)) .
 strictly(P,permission) :- fact(permission(P)) .
 strictly(P,Operator) :- strict(_,Operator,P,B) , strictly(B,Operator) .
 
 strictly([],_) .
 strictly([H|T],Operator) :- strictly(H,Operator) , strictly(T,Operator) .
 strictly(obligation(P)) :- strictly(P,obligation) .
-strictly(intention(P)) :- strictly(P,intention) .
-strictly(agency(P)) :- strictly(P,agency) . 
 strictly(permission(P)) :- strictly(P,permission) . 
 strictly(P) :- strictly(P,knowledge) .
 
@@ -40,15 +37,12 @@ defeasibly(P,Operator) :-
 defeasibly([]). 
 defeasibly([H|T]) :- defeasibly(H) , defeasibly(T) . 
 defeasibly(obligation(A)) :- defeasibly(A,obligation) . 
-defeasibly(agency(A)) :- defeasibly(A,agency) . 
-defeasibly(intention(A)) :- defeasibly(A,intention) . 
 defeasibly(permission(A)) :- defeasibly(A,permission) . 
 defeasibly(P) :- defeasibly(P,knowledge) .
 
 consistent(P,knowledge) :- 
 	negation(P,P1) ,
-	not(strictly(P1,knowledge)) , 
-	not(strictly(P1,agency)) .
+	not(strictly(P1,knowledge)) .
 
 consistent(P,obligation) :-
 	negation(P,P1) ,
@@ -60,32 +54,6 @@ consistent(P,permission) :-
 	negation(P,P1) , 
 	not(strictly(P1,knowledge)) , 
 	not(strictly(P1,obligation)) . 
-
-consistent(P,intention) :-
-	negation(P,P1) , 
-	not(strictly(P1,knowledge)) , 
-	not(strictly(P1,intention)) , 
-	not(strictly(P1,agency)) .  
-	
-consistent(P,agency) :-
-	negation(P,P1) , 
-	not(strictly(P1,knowledge)) , 
-	not(strictly(P1,intention)) , 
-	not(strictly(P1,agency)) .
-
-consistent(P,intention) :-
-	negation(P,P1) ,
-	not(strictly(P1,knowledge)) , 
-	not(strictly(P1,intention)) , 
-	not(strictly(P1,agency)) , 
-	not(strictly(P1,obligation)) .  
-
-consistent(P,agency) :-
-	negation(P,P1) ,
-	not(strictly(P1,knowledge)) , 
-	not(strictly(P1,intention)) , 
-	not(strictly(P1,agency)) , 
-	not(strictly(P1,obligation)) .
 
 %%% supported %%%
 % A literal is supported, if it is supported by by a supported rule with the same
@@ -119,29 +87,17 @@ undefeated_applicable(S,knowledge,P) :-
 	not(defeated_by_supported(S,knowledge,P)) , 
 	not(defeated_by_applicable(S,knowledge,P)) . 
 
-undefeated_applicable(S,agency,P) :-
-	rule(S,knowledge,P,A) , 
-	defeasibly(A) ,
-	not(defeated_by_supported(S,agency,P)) , 
-	not(defeated_by_applicable(S,knowledge,P)) . 
-
-undefeated_applicable(S,agency,P) :-
-	rule(S,agency,P,A) ,
-	defeasibly(A) , 
-	not(defeated_by_supported(S,agency,P)) , 
-	not(defeated_by_applicable(S,agency,P)) . 
-
-undefeated_applicable(S,agency,P) :-
-	rule(S,intention,P,A) , 
-	defeasibly(A) , 
-	not(defeated_by_supported(S,agency,P)) , 
-	not(defeated_by_applicable(S,intention,P)) .
-
 undefeated_applicable(S,permission,P) :-
 	rule(S,permission,P,A) ,
 	defeasibly(A) ,
 	not(defeated_by_supported(S,permission,P)) , 
 	not(defeated_by_applicable(S,permission,P)) . 
+
+undefeated_applicable(S,obligation,P) :-
+	rule(S,obligation,P,A) ,
+	defeasibly(A) ,
+	not(defeated_by_supported(S,obligation,P)) , 
+	not(defeated_by_applicable(S,obligation,P)) . 
 %%% end undefeated_applicable %%%
 
 defeated_by_supported(R,X,P) :- 
@@ -169,12 +125,10 @@ defeated(S,Operator,P) :-
 	superior(R,S) .
 %%% end defeated %%%
 
-strictly(P,knowledge) :- strictly(P,agency) . 
-
-defeasibly(P,knowledge) :- defeasibly(P,agency) .
-
 negation(~(X),X) :- ! . 
 negation(X, ~(X)).
+
+%% Query
 
 pDelta(Q) :- ! , strictly(Q) .
 mDelta(Q) :- ! , strictly(~(Q)) .
@@ -188,7 +142,6 @@ mdelta(Q) :- ! , defeasibly(~(Q)) .
 pdelta(Q,O) :- ! , defeasibly(Q,O) .
 mdelta(Q,O) :- ! , defeasibly(~(Q),O) .
 
-%% Query
 run_query(Query) :-
 	write(Query) ,
 	write(" := ") , 
