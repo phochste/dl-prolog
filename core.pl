@@ -22,8 +22,8 @@ strictly(P,agency) :- fact(agency(P)) .
 strictly(P,permission) :- fact(permission(P)) .
 strictly(P,Operator) :- strict(_,Operator,P,B) , strictly(B,Operator) .
 
-strictly([]) .
-strictly([H|T]) :- strictly(H) , strictly(T) .
+strictly([],_) .
+strictly([H|T],Operator) :- strictly(H,Operator) , strictly(T,Operator) .
 strictly(obligation(P)) :- strictly(P,obligation) .
 strictly(intention(P)) :- strictly(P,intention) .
 strictly(agency(P)) :- strictly(P,agency) . 
