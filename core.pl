@@ -33,7 +33,9 @@ strictly(P) :- strictly(P,knowledge) .
 defeasibly(P,Operator) :- strictly(P,Operator). 
 defeasibly(P,Operator) :- 
 	consistent(P,Operator) , 
+	debug(trace,"consistent ~w: ~w\n", [Operator,P]),
 	supported(_,Operator,P) , 
+	debug(trace,"supported : ~w\n", [P]),
 	negation(P,P1) , 
 	not(undefeated_applicable(_,Operator,P1)) .  
 
@@ -62,8 +64,15 @@ consistent(P,permission) :-
 % A literal is supported, if it is supported by by a supported rule with the same
 % mode, the premises of which are defeasibly provable
 supported(R,Operator,P) :- 
+	debug(trace,"supportive ~w ~w?", [Operator,P]),
 	supportive_rule(R,Operator,P,A) ,
-	defeasibly(A) .
+	debug(trace,"supportive_rule ~w ~w for ~w", [Operator,R,P]),
+	defeasibly(A,Operator) .
+
+% A literal in obligation can be supported by a supported rule in permission (deontic rule)
+supported(R,obligation,P) :-
+	supportive_rule(R,permission,P,B) , 
+	obligation_environment(B) .
 
 % A literal in obligation can be supported by a supported rule in knowledge
 supported(R,obligation,P) :-

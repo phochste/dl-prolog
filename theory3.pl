@@ -3,7 +3,7 @@
 fact(age(patrick,53)) .
 
 strict(
-    r1,
+    r2,
     knowledge,
     answer(B),
     [
