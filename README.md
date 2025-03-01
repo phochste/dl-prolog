@@ -15,9 +15,9 @@ $penguin(charles)$
 
 **Rules**
 
-$\text{r1 } \forall x: penguin(x) \rightarrow_{knowledge} bird(x)$\
-$\text{r2 } \forall x: bird(x) \Rightarrow_{knowledge} fly(x)$\
-$\text{r3 } \forall x: penguin(x) \rightsquigarrow_{knowledge} \lnot fly(x)$ 
+$\text{r1 } \forall x: penguin(x) \rightarrow bird(x)$\
+$\text{r2 } \forall x: bird(x) \Rightarrow fly(x)$\
+$\text{r3 } \forall x: penguin(x) \rightsquigarrow \lnot fly(x)$ 
 
 **Experiment**
 
@@ -44,9 +44,9 @@ $visiting(herbert)$
 
 **Rules**
 
-$\text{r1 } \forall x : professor(x) \rightarrow_{knowledge} faculty(x)$\
-$\text{r2 } \forall x : professor(x) \Rightarrow_{knowledge} tenured(x)$\
-$\text{r3 } \forall x : visiting(x) \Rightarrow_{knowledge} \lnot tenured(x)$\
+$\text{r1 } \forall x : professor(x) \rightarrow faculty(x)$\
+$\text{r2 } \forall x : professor(x) \Rightarrow tenured(x)$\
+$\text{r3 } \forall x : visiting(x) \Rightarrow \lnot tenured(x)$\
 $\text{r3} \gt \text{r2}$
 
 **Experiment**

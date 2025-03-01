@@ -3,9 +3,9 @@ Theory
 *********************
 professor(herbert)
 visiting(herbert)
-r1 (knowledge) : professor(_8734) -> faculty(_8734)
-r2 (knowledge) : professor(_8734) => tenured(_8734)
-r3 (knowledge) : visiting(_8738) => ~(tenured(_8738))
+r1 : professor(_8732) -> faculty(_8732)
+r2 : professor(_8732) => tenured(_8732)
+r3 : visiting(_8736) => ~(tenured(_8736))
 r3 > r2
 
 +Δ faculty(herbert) := true

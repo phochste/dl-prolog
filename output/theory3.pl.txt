@@ -2,7 +2,7 @@
 Theory
 *********************
 age(patrick,53)
-r2 (knowledge) : [age(patrick,_8746),sum(_8746,1,_8734)] -> answer(_8734)
+r2 : [sum(_8732,-1,_8746),age(patrick,_8746)] -> answer(_8732)
 
 +Δ answer(54) := true
 -Δ answer(53) := false

@@ -1,9 +1,0 @@
-*********************
-Theory
-*********************
-prerequisites_passed(alice,physics,fall,1990)
-r1 (permission) : prerequisites_passed(_8734,_8736,_8738,_8740) => enroll(_8734,_8736,_8738,_8740)
-r2 (obligation) : [enroll(_8738,_8740,fall,_8760),sum(_8760,1,_8744)] => ~(enroll(_8738,_8740,spring,_8744))
-
-+δ enroll(alice,physics,fall,1990) := true
--δ enroll(alice,physics,spring,1991) := false

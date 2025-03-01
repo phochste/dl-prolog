@@ -1,141 +1,82 @@
 :- dynamic fact/1 .
-:- dynamic strict/4 .
-:- dynamic defeasible/4 .
-:- dynamic defeater/4 .
+:- dynamic strict/3 .
+:- dynamic defeasible/3 .
+:- dynamic defeater/3 .
 :- dynamic superior/2 .
-:- discontiguous strictly/2 .
-:- discontiguous defeasibly/2.
+:- discontiguous strictly/1 .
+:- discontiguous defeasibly/1.
 
-supportive_rule(Name,Operator,Head,Body) :-
-	strict(Name,Operator,Head,Body) .
+supportive_rule(Name,Head,Body) :-
+	strict(Name,Head,Body) .
 
-supportive_rule(Name,Operator,Head,Body) :-
-	defeasible(Name,Operator,Head,Body) .
+supportive_rule(Name,Head,Body) :-
+	defeasible(Name,Head,Body) .
 
-rule(Name,Operator,Head,Body) :-
-	supportive_rule(Name,Operator,Head,Body) .
+rule(Name,Head,Body) :-
+	supportive_rule(Name,Head,Body) .
 
-rule(Name,Operator,Head,Body) :-
-	defeater(Name,Operator,Head,Body) .
+rule(Name,Head,Body) :-
+	defeater(Name,Head,Body) .
 
-strictly(P,knowledge) :- fact(P) .
-strictly(P,knowledge) :- builtin(P) .
-strictly(P,obligation) :- fact(obligation(P)) .
-strictly(P,permission) :- fact(permission(P)) .
-strictly(P,Operator) :- strict(_,Operator,P,B) , strictly(B,Operator) .
+strictly(P) :- fact(P) .
+strictly(P) :- builtin(P) .
+strictly(P) :- strict(_,P,B) , strictly(B) .
 
-strictly([],_) .
-strictly([H|T],Operator) :- strictly(H,Operator) , strictly(T,Operator) .
-strictly(obligation(P)) :- strictly(P,obligation) .
-strictly(permission(P)) :- strictly(P,permission) . 
-strictly(P) :- strictly(P,knowledge) .
+strictly([]) .
+strictly([H|T]) :- 
+	debug(trace,"strictly ~w\n", [H]),
+	strictly(H) , 
+	strictly(T) .
 
-defeasibly(P,Operator) :- strictly(P,Operator). 
-defeasibly(P,Operator) :- 
-	consistent(P,Operator) , 
-	debug(trace,"consistent ~w: ~w\n", [Operator,P]),
-	supported(_,Operator,P) , 
-	debug(trace,"supported : ~w\n", [P]),
+defeasibly(P) :- 
+	debug(trace,"defeasibly(strictly) ~w\n", [P]),
+	strictly(P). 
+
+defeasibly(P) :- 
+	debug(trace,"defeasibly ~w\n", [P]),
+	consistent(P) , 
+	debug(trace,"--consistent ~w\n", [P]),
+	supported(_,P) , 
+	debug(trace,"--supported : ~w\n", [P]),
 	negation(P,P1) , 
-	not(undefeated_applicable(_,Operator,P1)) .  
+	not(undefeated_applicable(_,P1)) .  
 
-defeasibly([]). 
+defeasibly([],_). 
 defeasibly([H|T]) :- defeasibly(H) , defeasibly(T) . 
-defeasibly(obligation(A)) :- defeasibly(A,obligation) . 
-defeasibly(permission(A)) :- defeasibly(A,permission) . 
-defeasibly(P) :- defeasibly(P,knowledge) .
 
-consistent(P,knowledge) :- 
+consistent(P) :- 
 	negation(P,P1) ,
-	not(strictly(P1,knowledge)) .
+	not(strictly(P1)) .
 
-consistent(P,obligation) :-
-	negation(P,P1) ,
-	not(strictly(P1,knowledge)) ,
-	not(strictly(P1,obligation)) , 
-	not(strictly(P1,permission)) .
+supported(R,P) :- 
+	debug(trace,"supportive ~w?", [P]),
+	supportive_rule(R,P,A) ,
+	debug(trace,"--supportive_rule ~w for ~w", [R,P]),
+	defeasibly(A) .
 
-consistent(P,permission) :- 
-	negation(P,P1) , 
-	not(strictly(P1,knowledge)) , 
-	not(strictly(P1,obligation)) . 
-
-%%% supported %%%
-% A literal is supported, if it is supported by by a supported rule with the same
-% mode, the premises of which are defeasibly provable
-supported(R,Operator,P) :- 
-	debug(trace,"supportive ~w ~w?", [Operator,P]),
-	supportive_rule(R,Operator,P,A) ,
-	debug(trace,"supportive_rule ~w ~w for ~w", [Operator,R,P]),
-	defeasibly(A,Operator) .
-
-% A literal in obligation can be supported by a supported rule in permission (deontic rule)
-supported(R,obligation,P) :-
-	supportive_rule(R,permission,P,B) , 
-	obligation_environment(B) .
-
-% A literal in obligation can be supported by a supported rule in knowledge
-supported(R,obligation,P) :-
-	supportive_rule(R,knowledge,P,B) , 
-	obligation_environment(B) .
-
-obligation_environment(A) :- 
-	defeasibly(A,obligation) . 
-
-obligation_environment(obligation(A)) :-
-	defeasibly(A,obligation) . 
-
-obligation_environment([A1|A2]) :-
-	obligation_environment(A1) , 
-	obligation_environment(A2) . 
-
-obligation_environment([]).
-%%% end supported %%%
-
-%%% undefeated_applicable %%%
-undefeated_applicable(S,knowledge,P) :-
-	rule(S,knowledge,P,A) ,
+undefeated_applicable(S,P) :-
+	rule(S,P,A) ,
 	defeasibly(A) ,
-	not(defeated_by_supported(S,knowledge,P)) , 
-	not(defeated_by_applicable(S,knowledge,P)) . 
+	not(defeated_by_supported(S,P)) , 
+	not(defeated_by_applicable(S,P)) . 
 
-undefeated_applicable(S,permission,P) :-
-	rule(S,permission,P,A) ,
-	defeasibly(A) ,
-	not(defeated_by_supported(S,permission,P)) , 
-	not(defeated_by_applicable(S,permission,P)) . 
+defeated_by_supported(R,P) :- 
+	negation(P,P1) , supported(S,P1), superior(S,R) .
 
-undefeated_applicable(S,obligation,P) :-
-	rule(S,obligation,P,A) ,
-	defeasibly(A) ,
-	not(defeated_by_supported(S,obligation,P)) , 
-	not(defeated_by_applicable(S,obligation,P)) . 
-%%% end undefeated_applicable %%%
+defeated_by_applicable(R,P) :-
+	negation(P,P1), applicable(S,P1), superior(S,R) .
 
-defeated_by_supported(R,X,P) :- 
-	negation(P,P1) , supported(S,X,P1), superior(S,R) .
-
-defeated_by_applicable(R,X,P) :-
-	negation(P,P1), applicable(S,X,P1), superior(S,R) .
-
-%%% applicable %%%
-% A rule is applicable if there is any rule (supportive or defeator) for this modality
-% that is premises are defeasibly provable (even if it is from a different modality
-% using rule conversion)
-applicable(R,Operator,P) :-
-	defeater(R,Operator,P,A) , 
+applicable(R,P) :-
+	defeater(R,P,A) , 
 	defeasibly(A) . 
 
-applicable(R,Operator,P) :- 
-	supported(R,Operator,P) .
-%%% end applicable %%%
+applicable(R,P) :- 
+	supported(R,P) .
 
-%%% defeated %%%
-defeated(S,Operator,P) :- 
+defeated(S,P) :- 
 	negation(P,P1) , 
-	applicable(R,Operator,P1) , 
+	applicable(R,P1) , 
 	superior(R,S) .
-%%% end defeated %%%
 
 negation(~(X),X) :- ! . 
 negation(X, ~(X)).
@@ -149,14 +90,8 @@ builtin(sum(A,B,C)) :-
 pDelta(Q) :- ! , strictly(Q) .
 mDelta(Q) :- ! , strictly(~(Q)) .
 
-pDelta(Q,O) :- ! , strictly(Q,O) .
-mDelta(Q,O) :- ! , strictly(~(Q,O)) .
-
 pdelta(Q) :- ! , defeasibly(Q) .
 mdelta(Q) :- ! , defeasibly(~(Q)) .
-
-pdelta(Q,O) :- ! , defeasibly(Q,O) .
-mdelta(Q,O) :- ! , defeasibly(~(Q),O) .
 
 print_theory() :-
 	write("*********************\n"),
@@ -171,18 +106,18 @@ theory() :-
 	fail .
 
 theory() :-
-	strict(Name,Modal,Consequent,Antecedent) ,
-	format("~w (~w) : ~w -> ~w\n", [Name,Modal,Antecedent,Consequent]) ,
+	strict(Name,Consequent,Antecedent) ,
+	format("~w : ~w -> ~w\n", [Name,Antecedent,Consequent]) ,
 	fail .
 
 theory() :-
-	defeasible(Name,Modal,Consequent,Antecedent) ,
-	format("~w (~w) : ~w => ~w\n", [Name,Modal,Antecedent,Consequent]) ,
+	defeasible(Name,Consequent,Antecedent) ,
+	format("~w : ~w => ~w\n", [Name,Antecedent,Consequent]) ,
 	fail .
 
 theory() :-
-	defeater(Name,Modal,Consequent,Antecedent) ,
-	format("~w (~w) : ~w ~~> ~w\n", [Name,Modal,Antecedent,Consequent]) ,
+	defeater(Name,Consequent,Antecedent) ,
+	format("~w : ~w ~~> ~w\n", [Name,Antecedent,Consequent]) ,
 	fail .
 
 theory() :-

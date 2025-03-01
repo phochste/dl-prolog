@@ -2,9 +2,10 @@
 
 fact(professor(herbert)).
 fact(visiting(herbert)).
-strict(r1,knowledge,faculty(X),professor(X)).
-defeasible(r2,knowledge,tenured(X),professor(X)).
-defeasible(r3,knowledge,~(tenured(X)),visiting(X)).
+
+strict(r1,faculty(X),professor(X)).
+defeasible(r2,tenured(X),professor(X)).
+defeasible(r3,~(tenured(X)),visiting(X)).
 superior(r3,r2).
 
 run :-

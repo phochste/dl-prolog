@@ -4,11 +4,10 @@ fact(age(patrick,53)) .
 
 strict(
     r2,
-    knowledge,
     answer(B),
     [
-        age(patrick,A),
-        sum(A,1,B)
+        sum(B,-1,A),
+        age(patrick,A)
     ]).
 
 run :-
