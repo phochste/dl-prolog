@@ -1,3 +1,12 @@
+*********************
+Theory
+*********************
+bird(tweety)
+penguin(charles)
+r1 (knowledge) : penguin(_8734) -> bird(_8734)
+r2 (knowledge) : bird(_8734) => fly(_8734)
+r3 (knowledge) : penguin(_8738) ~> ~(fly(_8738))
+
 +Δ bird(charles) := true
 -Δ bird(charles) := false
 +δ fly(charles) := false

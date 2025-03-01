@@ -1,3 +1,13 @@
+*********************
+Theory
+*********************
+professor(herbert)
+visiting(herbert)
+r1 (knowledge) : professor(_8734) -> faculty(_8734)
+r2 (knowledge) : professor(_8734) => tenured(_8734)
+r3 (knowledge) : visiting(_8738) => ~(tenured(_8738))
+r3 > r2
+
 +Δ faculty(herbert) := true
 -Δ faculty(herbert) := false
 +δ tenured(herbert) := false

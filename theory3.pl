@@ -12,5 +12,6 @@ strict(
     ]).
 
 run :-
+    print_theory() ,
     run_query(pDelta(answer(54))) ,
     run_query(mDelta(answer(53))) .

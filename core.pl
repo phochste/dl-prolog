@@ -1,5 +1,6 @@
 :- dynamic fact/1 .
 :- dynamic strict/4 .
+:- dynamic defeasible/4 .
 :- dynamic defeater/4 .
 :- dynamic superior/2 .
 :- discontiguous strictly/2 .
@@ -147,6 +148,40 @@ mdelta(Q) :- ! , defeasibly(~(Q)) .
 
 pdelta(Q,O) :- ! , defeasibly(Q,O) .
 mdelta(Q,O) :- ! , defeasibly(~(Q),O) .
+
+print_theory() :-
+	write("*********************\n"),
+	write("Theory\n") ,
+	write("*********************\n"),
+	theory(),
+	write("\n").
+
+theory() :-
+	fact(F) ,
+	writeln(F) , 
+	fail .
+
+theory() :-
+	strict(Name,Modal,Consequent,Antecedent) ,
+	format("~w (~w) : ~w -> ~w\n", [Name,Modal,Antecedent,Consequent]) ,
+	fail .
+
+theory() :-
+	defeasible(Name,Modal,Consequent,Antecedent) ,
+	format("~w (~w) : ~w => ~w\n", [Name,Modal,Antecedent,Consequent]) ,
+	fail .
+
+theory() :-
+	defeater(Name,Modal,Consequent,Antecedent) ,
+	format("~w (~w) : ~w ~~> ~w\n", [Name,Modal,Antecedent,Consequent]) ,
+	fail .
+
+theory() :-
+	superior(A,B) ,
+	format("~w > ~w\n", [A,B]) ,
+	fail .
+	
+theory() .
 
 run_query(Query) :-
 	Query =.. [Functor|[Q|_]] ,
