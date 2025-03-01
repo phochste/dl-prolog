@@ -149,6 +149,11 @@ pdelta(Q,O) :- ! , defeasibly(Q,O) .
 mdelta(Q,O) :- ! , defeasibly(~(Q),O) .
 
 run_query(Query) :-
-	write(Query) ,
+	Query =.. [Functor|[Q|_]] ,
+	( Functor = pDelta -> write("+Δ "), write(Q)
+	  ; Functor = mDelta -> write("-Δ ") , write(Q) 
+	  ; Functor = pdelta -> write("+δ ") , write(Q)
+	  ; Functor = mdelta -> write("-δ ") , write(Q)
+	),
 	write(" := ") , 
     ( call(Query) -> writeln(true) ; writeln(false) ).

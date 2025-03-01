@@ -1,4 +1,4 @@
-pDelta(bird(charles)) := true
-mDelta(bird(charles)) := false
-pdelta(fly(charles)) := false
-mdelta(fly(charles)) := false
++Δ bird(charles) := true
+-Δ bird(charles) := false
++δ fly(charles) := false
+-δ fly(charles) := false

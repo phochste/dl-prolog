@@ -1,1 +1,2 @@
-pDelta(answer(54)) := true
++Δ answer(54) := true
+-Δ answer(53) := false
