@@ -1,0 +1,1 @@
+pDelta(answer(54)) := true

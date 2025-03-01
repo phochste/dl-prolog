@@ -1,0 +1,4 @@
+pDelta(bird(charles)) := true
+mDelta(bird(charles)) := false
+pdelta(fly(charles)) := false
+mdelta(fly(charles)) := false

@@ -1,3 +1,4 @@
+:- dynamic fact/1 .
 :- dynamic strict/4 .
 :- dynamic defeater/4 .
 :- dynamic superior/2 .
@@ -17,6 +18,7 @@ rule(Name,Operator,Head,Body) :-
 	defeater(Name,Operator,Head,Body) .
 
 strictly(P,knowledge) :- fact(P) .
+strictly(P,knowledge) :- builtin(P) .
 strictly(P,obligation) :- fact(obligation(P)) .
 strictly(P,permission) :- fact(permission(P)) .
 strictly(P,Operator) :- strict(_,Operator,P,B) , strictly(B,Operator) .
@@ -127,6 +129,10 @@ defeated(S,Operator,P) :-
 
 negation(~(X),X) :- ! . 
 negation(X, ~(X)).
+
+%% Buit-ins
+builtin(sum(A,B,C)) :-
+	C is A + B .
 
 %% Query
 

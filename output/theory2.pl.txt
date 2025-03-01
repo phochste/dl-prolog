@@ -1,0 +1,4 @@
+pDelta(faculty(herbert)) := true
+mDelta(faculty(herbert)) := false
+pdelta(tenured(herbert)) := false
+mdelta(tenured(herbert)) := true
