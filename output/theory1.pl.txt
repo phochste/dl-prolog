@@ -3,9 +3,9 @@ Theory
 *********************
 bird(tweety)
 penguin(charles)
-r1 : penguin(_8732) -> bird(_8732)
-r2 : bird(_8732) => fly(_8732)
-r3 : penguin(_8736) ~> ~(fly(_8736))
+r1 : penguin(_10116) -> bird(_10116)
+r2 : bird(_10116) => fly(_10116)
+r3 : penguin(_10120) ~> ~(fly(_10120))
 
 +Δ bird(charles) := true
 -Δ bird(charles) := false

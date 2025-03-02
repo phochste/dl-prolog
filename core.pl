@@ -107,16 +107,22 @@ theory() :-
 
 theory() :-
 	strict(Name,Consequent,Antecedent) ,
+	numbervars(Consequent,0,_),
+	numbervars(Antecedent,0,_),
 	format("~w : ~w -> ~w\n", [Name,Antecedent,Consequent]) ,
 	fail .
 
 theory() :-
 	defeasible(Name,Consequent,Antecedent) ,
+	numbervars(Consequent,0,_),
+	numbervars(Antecedent,0,_),
 	format("~w : ~w => ~w\n", [Name,Antecedent,Consequent]) ,
 	fail .
 
 theory() :-
 	defeater(Name,Consequent,Antecedent) ,
+	numbervars(Consequent,0,_),
+	numbervars(Antecedent,0,_),
 	format("~w : ~w ~~> ~w\n", [Name,Antecedent,Consequent]) ,
 	fail .
 
