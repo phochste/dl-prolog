@@ -2,7 +2,7 @@
 Theory
 *********************
 age(patrick,53)
-r2 : [sum(_10116,-1,_10130),age(patrick,_10130)] -> answer(_10116)
+r2 : [sum(A,-1,A),age(patrick,A)] -> answer(A)
 
 +Δ answer(54) := true
 -Δ answer(53) := false
